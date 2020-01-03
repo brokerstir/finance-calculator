@@ -1,50 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person';
+import Calc from './Calc/Calc';
 
 class App extends Component {
 
   state = {
-    persons: [
-      { id: '1', name: 'Max', age: 28 },
-      { id: '2', name: 'Manu', age: 29 },
-      { id: '3', name: 'Stephanie', age: 26 }
-    ],
-    otherState: 'some other value',
-    showPersons: false
+    showCalc: false,
+    principal: null,
+    interest: null,
+    apprec: null
   };
 
-  nameChangedHandler = (event, id) => {
-    const personIndex = this.state.persons.findIndex(p => {
-      return p.id === id;
-    });
-
-    const person = {
-      ...this.state.persons[personIndex]
-    };
-
-    person.name = event.target.value;
-
-    const persons = [...this.state.persons];
-    persons[personIndex] = person;
-
-    this.setState( {persons: persons} );
+  prinChangedHandler = (event) => {
+    this.setState({principal: event.target.value})
   };
 
-  deletePersonHandler = (personIndex) => {
-    // const persons = this.state.persons.slice();
-    const persons = [...this.state.persons];
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons})
-
+  intChangedHandler = (event) => {
+    this.setState({interest: event.target.value})
   };
 
-  togglePersonsHandler = () => {
-    const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+  toggleCalcHandler = () => {
+    const doesShow = this.state.showCalc;
+    this.setState({showCalc: !doesShow});
+  };
+
+  runCalcHandler = () => {
+    const p = this.state.principal;
+    const i = this.state.interest;
+    const a = p * i;
+    this.setState({apprec: a});
   }
-
-
 
   render() {
 
@@ -56,31 +41,29 @@ class App extends Component {
   		cursor: 'pointer'
   	}
 
-    let persons = null;
-
-    if (this.state.showPersons) {
-      persons = (
+    let calc = null;
+    if (this.state.showCalc) {
+      calc = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return <Person
-              click={() => this.deletePersonHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })}
+            <Calc
+              click={this.runCalcHandler}
+              principal={this.state.principal}
+              interest={this.state.interest}
+              apprec={this.state.apprec}
+              prinChanged={(event) => this.prinChangedHandler(event)}
+              intChanged={(event) => this.intChangedHandler(event)} />
         </div>
         )
     }
 
     return (
     <div className="App">
-        <h1>Hi, I am a react app</h1>
-   		<button
-   		  style={style}
-   		  onClick={this.togglePersonsHandler}>Toggle People
+        <h1>Finance Calculator</h1>
+      <button
+        style={style}
+        onClick={this.toggleCalcHandler}>Toggle Calc
       </button>
-      {persons}
+      {calc}
      </div>
     );
   }
