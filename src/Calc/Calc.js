@@ -4,9 +4,12 @@ import './Calc.css'
 const calc = (props) => {
   console.log("props", props);
   let ans = null;
-  if (props.rateDecimal != '' && !isNaN(props.rateDecimal)) {
+  if (props.hasErr) {
+    ans = (<p>Error: Invalid Input</p>);
+  } else if (props.finshCalc) {
     ans = (<p>The rate is {props.rateDecimal}, or you could say interest accumlates at the rate of {props.ratePercent}.</p>)
   };
+
 
   return (
 
@@ -52,6 +55,7 @@ const calc = (props) => {
           </fieldset>
             <div>
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.click}>Calculate</button>
+              <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.clear}>Clear</button>
             </div>
         {ans}
         </div>

@@ -12,7 +12,8 @@ class App extends Component {
     ratePercent: '',
     rateDecimal: '',
     sum: '',
-    ans: ''
+    finishCalc: false,
+    hasErr: false
   };
 
   prinChangedHandler = (event) => {
@@ -34,18 +35,48 @@ class App extends Component {
     this.setState({showCalc: !doesShow});
   };
 
-  runCalcHandler = () => {
-    const p = this.state.principal;
-    const i = this.state.interest;
-    const notNum = isNaN(i / p);
-    const err = 'Error: Invalid Input';
-    const rd = notNum ? err : (i / p).toFixed(4);
-    const rp = notNum ? err : (rd * 100).toFixed(2) + '%';
-    const s = notNum ? err : parseFloat(p) + parseFloat(i);
+  runClearHandler = () => {
+    this.setState({
+      principal:'',
+      interest: '',
+      ratePercent: '',
+      rateDecimal: '',
+      sum: '',
+      finishCalc: false,
+      hasErr: false
+    });
+  };
+
+  runValidator = () => {
+    const p = parseFloat(this.state.principal);
+    const i = parseFloat(this.state.interest);
+    const invalid = (p === '' || i === '' || isNaN(p) || isNaN(i));
+    if (invalid) {
+      this.setState({
+        principal: '',
+        interest: '',
+        ratePercent: '',
+        rateDecimal: '',
+        sum: '',
+        finishCalc: false,
+        hasErr: true
+      });
+      return
+    }
+    this.runCalcHandler(p, i)
+  };
+
+  runCalcHandler = (p, i) => {
+    const allZero = ((i === 0) && (p === 0))
+    const rd = allZero ? 0 : (i / p).toFixed(4);
+    const rp = (rd * 100).toFixed(2) + '%';
+    const s = p + i;
     this.setState({
       rateDecimal: rd,
       ratePercent: rp,
-      sum: s
+      sum: s,
+      finishCalc: true,
+      hasErr: false
     });
   }
 
@@ -64,7 +95,10 @@ class App extends Component {
       calc = (
         <div>
             <Calc
-              click={this.runCalcHandler}
+              click={this.runValidator}
+              clear={this.runClearHandler}
+              finishCalc={this.state.finishCalc}
+              hasErr={this.state.hasErr}
               principal={this.state.principal}
               interest={this.state.interest}
               ratePercent={this.state.ratePercent}
