@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
 import Calc from './Calc/Calc';
+import 'tachyons';
 
 class App extends Component {
 
   state = {
     showCalc: false,
-    principal: null,
-    interest: null,
-    apprec: null
+    principal: '',
+    interest: '',
+    ratePercent: '',
+    rateDecimal: '',
+    sum: '',
+    ans: ''
   };
 
   prinChangedHandler = (event) => {
-    this.setState({principal: event.target.value})
+    const principal = event.target.value;
+    this.setState({principal: principal})
   };
 
   intChangedHandler = (event) => {
-    this.setState({interest: event.target.value})
+    const interest = event.target.value;
+    this.setState({interest: interest});
+  };
+
+  intLeftHandler = (event) => {
+    console.log(event.target.value)
+    // const val = event.target.value;
+    // if (!isNaN(val)) this.setState({interest: val + '%'});
+    // const interest = isNaN(val) || (val == '') ? val : val + '%'
   };
 
   toggleCalcHandler = () => {
@@ -25,10 +38,20 @@ class App extends Component {
   };
 
   runCalcHandler = () => {
+    console.log("Click")
     const p = this.state.principal;
     const i = this.state.interest;
-    const a = p * i;
-    this.setState({apprec: a});
+    // const a = isNaN(p * i) ? 'Error: Invalid Input' : p * i;
+    const notNum = isNaN(i / p);
+    const err = 'Error: Invalid Input';
+    const rd = notNum ? err : i / p;
+    const rp = notNum ? err : (rd * 100) + '%';
+    const s = notNum ? err : parseFloat(p) + parseFloat(i);
+    this.setState({
+      rateDecimal: rd,
+      ratePercent: rp,
+      sum: s
+    });
   }
 
   render() {
@@ -49,22 +72,27 @@ class App extends Component {
               click={this.runCalcHandler}
               principal={this.state.principal}
               interest={this.state.interest}
-              apprec={this.state.apprec}
+              ratePercent={this.state.ratePercent}
+              rateDecimal={this.state.rateDecimal}
+              sum={this.state.sum}
               prinChanged={(event) => this.prinChangedHandler(event)}
-              intChanged={(event) => this.intChangedHandler(event)} />
+              intChanged={(event) => this.intChangedHandler(event)}
+              intLeft={(event) => this.intLeftHandler(event)} />
         </div>
         )
     }
 
     return (
-    <div className="App">
-        <h1>Finance Calculator</h1>
-      <button
-        style={style}
-        onClick={this.toggleCalcHandler}>Toggle Calc
-      </button>
-      {calc}
-     </div>
+      <div>
+        <div className="App">
+          <h1>Finance Calculator</h1>
+            <button
+              style={style}
+              onClick={this.toggleCalcHandler}>Toggle Calc
+            </button>
+        </div>
+        {calc}
+      </div>
     );
   }
 }
