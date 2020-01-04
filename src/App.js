@@ -27,9 +27,6 @@ class App extends Component {
 
   intLeftHandler = (event) => {
     console.log(event.target.value)
-    // const val = event.target.value;
-    // if (!isNaN(val)) this.setState({interest: val + '%'});
-    // const interest = isNaN(val) || (val == '') ? val : val + '%'
   };
 
   toggleCalcHandler = () => {
@@ -38,14 +35,12 @@ class App extends Component {
   };
 
   runCalcHandler = () => {
-    console.log("Click")
     const p = this.state.principal;
     const i = this.state.interest;
-    // const a = isNaN(p * i) ? 'Error: Invalid Input' : p * i;
     const notNum = isNaN(i / p);
     const err = 'Error: Invalid Input';
-    const rd = notNum ? err : i / p;
-    const rp = notNum ? err : (rd * 100) + '%';
+    const rd = notNum ? err : (i / p).toFixed(4);
+    const rp = notNum ? err : (rd * 100).toFixed(2) + '%';
     const s = notNum ? err : parseFloat(p) + parseFloat(i);
     this.setState({
       rateDecimal: rd,
