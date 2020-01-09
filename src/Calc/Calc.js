@@ -4,10 +4,18 @@ import './Calc.css'
 const calc = (props) => {
   console.log("props", props);
   let ans = null;
+  let notice = 'Rate of Interest';
   if (props.hasErr) {
-    ans = (<p>Error: Invalid Input</p>);
-  } else if (props.finshCalc) {
-    ans = (<p>The rate is {props.rateDecimal}, or you could say interest accumlates at the rate of {props.ratePercent}.</p>)
+    notice = 'Error: Invalid Input';
+  }
+  if (props.finishCalc) {
+    ans = (
+          <div>
+          <p>The interest rate is {props.ratePercent}</p>
+          <p>The interest amount is ${props.sum}</p>
+          </div>
+          );
+    console.log("ans", ans);
   };
 
 
@@ -18,47 +26,45 @@ const calc = (props) => {
       <main className="pa4 black-80">
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Rate of Interest</legend>
+            <legend className="f4 fw6 ph0 mh0">{notice}</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6">Principal $</label>
                 <input
                   className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                   type="text"
+                  name="principal"
                   value={props.principal}
-                  onChange={props.prinChanged} />
+                  onChange={props.valChanged}
+                  onBlur={props.inputBlurred} />
               </div>
               <div className="mv3">
-                <label className="db fw6 lh-copy f6">Interest $</label>
+                <label className="db fw6 lh-copy f6">Interest Rate %</label>
                 <input
                   className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                   type="text"
+                  name="interest"
                   value={props.interest}
-                  onChange={props.intChanged}
-                  onBlur={props.intLeft} />
+                  onChange={props.valChanged}
+                  onBlur={props.inputBlurred} />
               </div>
               <div className="mv3">
-                <label className="db fw6 lh-copy f6">Rate of Interest %</label>
+                <label className="db fw6 lh-copy f6">Number of Years</label>
                 <input
                   className="pa2 input-reset ba bg-transparent w-100"
                   type="text"
-                  value={props.ratePercent}
-                  disabled={true} />
+                  name="years"
+                  value={props.years}
+                  onChange={props.valChanged}
+                  onBlur={props.inputBlurred} />
               </div>
-              <div className="mv3">
-                <label className="db fw6 lh-copy f6">Accumulated Sum $</label>
-                <input
-                  className="pa2 input-reset ba bg-transparent w-100"
-                  type="text"
-                  value={props.sum}
-                  readOnly />
-              </div>
+
           </fieldset>
             <div>
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.click}>Calculate</button>
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.clear}>Clear</button>
             </div>
-        {ans}
         </div>
+        {ans}
       </main>
 
     </div>

@@ -6,9 +6,10 @@ import 'tachyons';
 class App extends Component {
 
   state = {
-    showCalc: false,
+    showCalc: true,
     principal: '',
     interest: '',
+    years: 1,
     ratePercent: '',
     rateDecimal: '',
     sum: '',
@@ -16,9 +17,29 @@ class App extends Component {
     hasErr: false
   };
 
-  prinChangedHandler = (event) => {
-    const principal = event.target.value;
-    this.setState({principal: principal})
+  valChangedHandler = (event) => {
+    const val = event.target.value;
+    const name = event.target.name;
+    this.setValHandler(name, val, false);
+  };
+
+  setValHandler = (name, val, invalid) => {
+    console.log("val", val);
+    const v = invalid ? '' : val;
+    console.log("v", v);
+    switch (name) {
+      case 'principal':
+        this.setState({principal: v, hasErr: invalid});
+        break;
+      case 'interest':
+        this.setState({interest: v, hasErr: invalid});
+        break;
+      case 'years':
+        this.setState({years: v, hasErr: invalid});
+        break;
+      default:
+        break;
+    }
   };
 
   intChangedHandler = (event) => {
@@ -26,8 +47,17 @@ class App extends Component {
     this.setState({interest: interest});
   };
 
-  intLeftHandler = (event) => {
-    console.log(event.target.value)
+  yearsChangedHandler = (event) => {
+    const years = event.target.years;
+    this.setState({years: years});
+  };
+
+  inputBlurHandler = (event) => {
+    const val = event.target.value;
+    const name = event.target.name;
+    const invalid = (val === '' || isNaN(val));
+    const v = invalid ? '' : val;
+    this.setValHandler(name, v, invalid);
   };
 
   toggleCalcHandler = () => {
@@ -39,6 +69,7 @@ class App extends Component {
     this.setState({
       principal:'',
       interest: '',
+      years: 1,
       ratePercent: '',
       rateDecimal: '',
       sum: '',
@@ -50,10 +81,12 @@ class App extends Component {
   runValidator = () => {
     const p = parseFloat(this.state.principal);
     const i = parseFloat(this.state.interest);
+    const t = parseFloat(this.state.years);
     const invalid = (p === '' || i === '' || isNaN(p) || isNaN(i));
     if (invalid) {
       this.setState({
         principal: '',
+        years: 1,
         interest: '',
         ratePercent: '',
         rateDecimal: '',
@@ -63,14 +96,16 @@ class App extends Component {
       });
       return
     }
-    this.runCalcHandler(p, i)
+    this.runCalcHandler(p, i, t);
   };
 
-  runCalcHandler = (p, i) => {
-    const allZero = ((i === 0) && (p === 0))
-    const rd = allZero ? 0 : (i / p).toFixed(4);
-    const rp = (rd * 100).toFixed(2) + '%';
-    const s = p + i;
+  runCalcHandler = (p, i, t) => {
+    const allZero = ((i === 0) && (p === 0));
+    // const rd = allZero ? 0 : (i / p).toFixed(4);
+    // const rp = (rd * 100).toFixed(2) + '%';
+    const rd = (i / 100).toFixed(4);
+    const rp = (i).toFixed(2) + '%';
+    const s = p * rd * t;
     this.setState({
       rateDecimal: rd,
       ratePercent: rp,
@@ -101,12 +136,12 @@ class App extends Component {
               hasErr={this.state.hasErr}
               principal={this.state.principal}
               interest={this.state.interest}
+              years={this.state.years}
               ratePercent={this.state.ratePercent}
               rateDecimal={this.state.rateDecimal}
               sum={this.state.sum}
-              prinChanged={(event) => this.prinChangedHandler(event)}
-              intChanged={(event) => this.intChangedHandler(event)}
-              intLeft={(event) => this.intLeftHandler(event)} />
+              valChanged={(event) => this.valChangedHandler(event)}
+              inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
         )
     }
@@ -115,10 +150,6 @@ class App extends Component {
       <div>
         <div className="App">
           <h1>Finance Calculator</h1>
-            <button
-              style={style}
-              onClick={this.toggleCalcHandler}>Toggle Calc
-            </button>
         </div>
         {calc}
       </div>
