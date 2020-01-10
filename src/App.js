@@ -12,7 +12,8 @@ class App extends Component {
     years: 1,
     ratePercent: '',
     rateDecimal: '',
-    sum: '',
+    intAmount: '',
+    accumVal: '',
     finishCalc: false,
     hasErr: false,
     errMsg: ''
@@ -62,7 +63,8 @@ class App extends Component {
       years: 1,
       ratePercent: '',
       rateDecimal: '',
-      sum: '',
+      intAmount: '',
+      accumVal: '',
       finishCalc: false,
       hasErr: false,
       errMsg: ''
@@ -82,7 +84,8 @@ class App extends Component {
         interest: '',
         ratePercent: '',
         rateDecimal: '',
-        sum: '',
+        intAmount: '',
+        accumVal: '',
         finishCalc: false,
         hasErr: true,
         errMsg: 'Error: Calculaton cannot run with blank input.'
@@ -100,7 +103,8 @@ class App extends Component {
     this.setState({
       rateDecimal: rd,
       ratePercent: rp,
-      sum: s,
+      intAmount: (s).toFixed(2),
+      accumVal: (s + p).toFixed(2),
       finishCalc: true,
       hasErr: false,
       errMsg: ''
@@ -132,7 +136,8 @@ class App extends Component {
               years={this.state.years}
               ratePercent={this.state.ratePercent}
               rateDecimal={this.state.rateDecimal}
-              sum={this.state.sum}
+              intAmount={this.state.intAmount}
+              accumVal={this.state.accumVal}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>

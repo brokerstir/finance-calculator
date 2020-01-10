@@ -13,7 +13,8 @@ const calc = (props) => {
     ans = (
           <div>
           <p>The interest rate is {props.ratePercent}</p>
-          <p>The interest amount is ${props.sum}</p>
+          <p>The interest amount is ${props.intAmount}</p>
+          <p>The accumulated value is ${props.accumVal}</p>
           </div>
           );
   };
@@ -57,10 +58,9 @@ const calc = (props) => {
                   onChange={props.valChanged}
                   onBlur={props.inputBlurred} />
               </div>
-
+              {ans}
           </fieldset>
             <div>
-              {ans}
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.click}>Calculate</button>
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.clear}>Clear</button>
             </div>
