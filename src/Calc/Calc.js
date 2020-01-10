@@ -6,7 +6,8 @@ const calc = (props) => {
   let ans = null;
   let notice = 'Rate of Interest';
   if (props.hasErr) {
-    notice = 'Error: Invalid Input';
+    //TODO: Put all errMsg in props
+    notice = 'Error: Invalid Input' + (props.errMsg);
   }
   if (props.finishCalc) {
     ans = (
@@ -15,7 +16,6 @@ const calc = (props) => {
           <p>The interest amount is ${props.sum}</p>
           </div>
           );
-    console.log("ans", ans);
   };
 
 
@@ -60,11 +60,11 @@ const calc = (props) => {
 
           </fieldset>
             <div>
+              {ans}
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.click}>Calculate</button>
               <button className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" onClick={props.clear}>Clear</button>
             </div>
         </div>
-        {ans}
       </main>
 
     </div>

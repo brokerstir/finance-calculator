@@ -14,7 +14,8 @@ class App extends Component {
     rateDecimal: '',
     sum: '',
     finishCalc: false,
-    hasErr: false
+    hasErr: false,
+    errMsg: ''
   };
 
   valChangedHandler = (event) => {
@@ -24,40 +25,29 @@ class App extends Component {
   };
 
   setValHandler = (name, val, invalid) => {
-    console.log("val", val);
-    const v = invalid ? '' : val;
-    console.log("v", v);
+    let w = name == 'years' ? 1 : '';
+    let v = invalid ? w : val;
     switch (name) {
       case 'principal':
-        this.setState({principal: v, hasErr: invalid});
+        this.setState({principal: v, hasErr: invalid, errMsg: ''});
         break;
       case 'interest':
-        this.setState({interest: v, hasErr: invalid});
+        this.setState({interest: v, hasErr: invalid, errMsg: ''});
         break;
       case 'years':
-        this.setState({years: v, hasErr: invalid});
+        this.setState({years: v, hasErr: invalid, errMsg: ''});
         break;
       default:
         break;
     }
   };
 
-  intChangedHandler = (event) => {
-    const interest = event.target.value;
-    this.setState({interest: interest});
-  };
-
-  yearsChangedHandler = (event) => {
-    const years = event.target.years;
-    this.setState({years: years});
-  };
-
   inputBlurHandler = (event) => {
-    const val = event.target.value;
+    let val = event.target.value;
     const name = event.target.name;
-    const invalid = (val === '' || isNaN(val));
-    const v = invalid ? '' : val;
-    this.setValHandler(name, v, invalid);
+    const invalid = isNaN(val);
+    if (invalid) val = '';
+    this.setValHandler(name, val, invalid);
   };
 
   toggleCalcHandler = () => {
@@ -74,16 +64,18 @@ class App extends Component {
       rateDecimal: '',
       sum: '',
       finishCalc: false,
-      hasErr: false
+      hasErr: false,
+      errMsg: ''
     });
   };
 
-  runValidator = () => {
+  runCalcValidator = () => {
     const p = parseFloat(this.state.principal);
     const i = parseFloat(this.state.interest);
     const t = parseFloat(this.state.years);
-    const invalid = (p === '' || i === '' || isNaN(p) || isNaN(i));
-    if (invalid) {
+    const invalid = (p === '' || i === '' || t === '');
+    const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
+    if (invalid || notNum) {
       this.setState({
         principal: '',
         years: 1,
@@ -92,7 +84,8 @@ class App extends Component {
         rateDecimal: '',
         sum: '',
         finishCalc: false,
-        hasErr: true
+        hasErr: true,
+        errMsg: 'Error: Calculaton cannot run with blank input.'
       });
       return
     }
@@ -101,8 +94,6 @@ class App extends Component {
 
   runCalcHandler = (p, i, t) => {
     const allZero = ((i === 0) && (p === 0));
-    // const rd = allZero ? 0 : (i / p).toFixed(4);
-    // const rp = (rd * 100).toFixed(2) + '%';
     const rd = (i / 100).toFixed(4);
     const rp = (i).toFixed(2) + '%';
     const s = p * rd * t;
@@ -111,7 +102,8 @@ class App extends Component {
       ratePercent: rp,
       sum: s,
       finishCalc: true,
-      hasErr: false
+      hasErr: false,
+      errMsg: ''
     });
   }
 
@@ -130,10 +122,11 @@ class App extends Component {
       calc = (
         <div>
             <Calc
-              click={this.runValidator}
+              click={this.runCalcValidator}
               clear={this.runClearHandler}
               finishCalc={this.state.finishCalc}
               hasErr={this.state.hasErr}
+              errMsg={this.state.errMsg}
               principal={this.state.principal}
               interest={this.state.interest}
               years={this.state.years}
