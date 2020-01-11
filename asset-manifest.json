@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/finance-calculator/static/css/main.d4d86d5c.chunk.css",
+    "main.js": "/finance-calculator/static/js/main.ecdc9575.chunk.js",
+    "main.js.map": "/finance-calculator/static/js/main.ecdc9575.chunk.js.map",
+    "runtime-main.js": "/finance-calculator/static/js/runtime-main.49575215.js",
+    "runtime-main.js.map": "/finance-calculator/static/js/runtime-main.49575215.js.map",
+    "static/css/2.eb45ad44.chunk.css": "/finance-calculator/static/css/2.eb45ad44.chunk.css",
+    "static/js/2.5749bbd7.chunk.js": "/finance-calculator/static/js/2.5749bbd7.chunk.js",
+    "static/js/2.5749bbd7.chunk.js.map": "/finance-calculator/static/js/2.5749bbd7.chunk.js.map",
+    "index.html": "/finance-calculator/index.html",
+    "precache-manifest.8ac21b5dc6b7b0112b5fbf01cdab33c7.js": "/finance-calculator/precache-manifest.8ac21b5dc6b7b0112b5fbf01cdab33c7.js",
+    "service-worker.js": "/finance-calculator/service-worker.js",
+    "static/css/2.eb45ad44.chunk.css.map": "/finance-calculator/static/css/2.eb45ad44.chunk.css.map",
+    "static/css/main.d4d86d5c.chunk.css.map": "/finance-calculator/static/css/main.d4d86d5c.chunk.css.map",
+    "static/js/2.5749bbd7.chunk.js.LICENSE": "/finance-calculator/static/js/2.5749bbd7.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.49575215.js",
+    "static/css/2.eb45ad44.chunk.css",
+    "static/js/2.5749bbd7.chunk.js",
+    "static/css/main.d4d86d5c.chunk.css",
+    "static/js/main.ecdc9575.chunk.js"
+  ]
+}
