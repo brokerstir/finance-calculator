@@ -1,5 +1,6 @@
 {
-  "name": "react-complete-guide",
+  "name": "finance-calculator",
+  "homepage": "https://brokerstir.github.io/finance-calculator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

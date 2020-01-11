@@ -1,8 +1,26 @@
 .Calc {
-	width: 30%;
 	margin: 16px auto;
 	border: 1px solid #eee;
 	box-shadow: 0 2px 3px #ccc;
 	padding: 16px;
-	/*text-align: center;*/
+}
+
+@media (min-width: 500px) {
+	.Calc {
+		width: 300px;
+	}
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.ans {
+  font-weight: bold;
+}
+
+.money {
+  color: #85bb65;
+  font-weight: bold;
 }

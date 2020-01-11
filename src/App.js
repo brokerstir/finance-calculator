@@ -29,15 +29,16 @@ class App extends Component {
   setValHandler = (name, val, invalid) => {
     let w = name == 'years' ? 1 : '';
     let v = invalid ? w : val;
+    let err = invalid ? 'Error: Invalid Input' : '';
     switch (name) {
       case 'principal':
-        this.setState({principal: v, hasErr: invalid, errMsg: ''});
+        this.setState({principal: v, hasErr: invalid, errMsg: err});
         break;
       case 'interest':
-        this.setState({interest: v, hasErr: invalid, errMsg: ''});
+        this.setState({interest: v, hasErr: invalid, errMsg: err});
         break;
       case 'years':
-        this.setState({years: v, hasErr: invalid, errMsg: ''});
+        this.setState({years: v, hasErr: invalid, errMsg: err});
         break;
       default:
         break;
@@ -52,9 +53,12 @@ class App extends Component {
     this.setValHandler(name, val, invalid);
   };
 
-  toggleCalcHandler = () => {
-    const doesShow = this.state.showCalc;
-    this.setState({showCalc: !doesShow});
+  numberWithCommas = (x) => {
+    // x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // 9999.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
   };
 
   toggleCompoundHandler = () => {
@@ -86,16 +90,16 @@ class App extends Component {
     const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
     if (invalid || notNum) {
       this.setState({
-        principal: '',
+        // principal: '',
         years: 1,
-        interest: '',
+        // interest: '',
         ratePercent: '',
         rateDecimal: '',
         intAmount: '',
         accumVal: '',
         finishCalc: false,
         hasErr: true,
-        errMsg: 'Error: Calculaton cannot run with blank input.'
+        errMsg: 'Error: Blank Input'
       });
       return
     }
@@ -110,18 +114,18 @@ class App extends Component {
     let av = null;
     if (this.state.compound) {
       av = p * ((rd + 1) ** t);
-      console.log('av', av);
       s = av - p;
     } else {
-      console.log('simple');
       s = p * rd * t;
       av = s + p;
     }
+    av = this.numberWithCommas(av.toFixed(2));
+    s = this.numberWithCommas(s.toFixed(2));
     this.setState({
       rateDecimal: rd.toFixed(4),
       ratePercent: rp,
-      intAmount: (s).toFixed(2),
-      accumVal: (av).toFixed(2),
+      intAmount: s,
+      accumVal: av,
       finishCalc: true,
       hasErr: false,
       errMsg: ''
