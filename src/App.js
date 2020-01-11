@@ -16,6 +16,7 @@ class App extends Component {
     accumVal: '',
     finishCalc: false,
     hasErr: false,
+    compound: false,
     errMsg: ''
   };
 
@@ -56,6 +57,11 @@ class App extends Component {
     this.setState({showCalc: !doesShow});
   };
 
+  toggleCompoundHandler = () => {
+    const isCompound = this.state.compound;
+    this.setState({compound: !isCompound});
+  };
+
   runClearHandler = () => {
     this.setState({
       principal:'',
@@ -67,6 +73,7 @@ class App extends Component {
       accumVal: '',
       finishCalc: false,
       hasErr: false,
+      compound: false,
       errMsg: ''
     });
   };
@@ -97,14 +104,24 @@ class App extends Component {
 
   runCalcHandler = (p, i, t) => {
     const allZero = ((i === 0) && (p === 0));
-    const rd = (i / 100).toFixed(4);
+    const rd = (i / 100);
     const rp = (i).toFixed(2) + '%';
-    const s = p * rd * t;
+    let s = null;
+    let av = null;
+    if (this.state.compound) {
+      av = p * ((rd + 1) ** t);
+      console.log('av', av);
+      s = av - p;
+    } else {
+      console.log('simple');
+      s = p * rd * t;
+      av = s + p;
+    }
     this.setState({
-      rateDecimal: rd,
+      rateDecimal: rd.toFixed(4),
       ratePercent: rp,
       intAmount: (s).toFixed(2),
-      accumVal: (s + p).toFixed(2),
+      accumVal: (av).toFixed(2),
       finishCalc: true,
       hasErr: false,
       errMsg: ''
@@ -131,6 +148,7 @@ class App extends Component {
               finishCalc={this.state.finishCalc}
               hasErr={this.state.hasErr}
               errMsg={this.state.errMsg}
+              compound={this.state.compound}
               principal={this.state.principal}
               interest={this.state.interest}
               years={this.state.years}
@@ -138,6 +156,7 @@ class App extends Component {
               rateDecimal={this.state.rateDecimal}
               intAmount={this.state.intAmount}
               accumVal={this.state.accumVal}
+              clickCompound={(event) => this.toggleCompoundHandler(event)}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
