@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6ea027809277579d7ee5be6f53ba4457",
+    "revision": "91d81d1780d590196b43c128048bf908",
     "url": "/finance-calculator/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/finance-calculator/static/css/2.eb45ad44.chunk.css"
   },
   {
-    "revision": "445127044dc6856a8280",
+    "revision": "cde714fd089891718f7f",
     "url": "/finance-calculator/static/css/main.d4d86d5c.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/finance-calculator/static/js/2.5749bbd7.chunk.js.LICENSE"
   },
   {
-    "revision": "445127044dc6856a8280",
-    "url": "/finance-calculator/static/js/main.ecdc9575.chunk.js"
+    "revision": "cde714fd089891718f7f",
+    "url": "/finance-calculator/static/js/main.e18fba83.chunk.js"
   },
   {
     "revision": "cc0e60b37f5935840f94",
