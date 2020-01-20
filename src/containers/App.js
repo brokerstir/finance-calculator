@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Calc from './Calc/Calc';
+import Calc from '../Calc/Calc';
 import 'tachyons';
 
 class App extends Component {
@@ -170,7 +170,8 @@ class App extends Component {
     return (
       <div>
         <div className="App">
-          <h1>Finance Calculator</h1>
+          <h1>{this.props.appTitle}</h1>
+          <h4>A Single Page React App</h4>
         </div>
         {calc}
       </div>
