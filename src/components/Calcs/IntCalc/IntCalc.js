@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Principal from '../../CalcParts/Principal';
 import IntRate from '../../CalcParts/IntRate';
 import Years from '../../CalcParts/Years';
 import './IntCalc.css'
 
-const intCalc = (props) => {
-  console.log("props", props);
+class IntCalc extends PureComponent {
+  render() {
+  console.log("this.props", this.props);
   let ans = null;
   let err = null;
-  if (props.hasErr) {
+  if (this.props.hasErr) {
     err = (
           <div>
-          <p className="error">{props.errMsg}</p>
+          <p className="error">{this.props.errMsg}</p>
           </div>
           );
   }
-  if (props.finishCalc) {
+  if (this.props.finishCalc) {
     ans = (
           <div className="ans">
-          <p>The interest rate is {props.ratePercent}</p>
-          <p>The interest amount is <span className='money'>${props.intAmount}</span></p>
-          <p>The accumulated value is <span className='money'>${props.accumVal}</span></p>
+          <p>The interest rate is {this.props.ratePercent}</p>
+          <p>The interest amount is <span className='money'>${this.props.intAmount}</span></p>
+          <p>The accumulated value is <span className='money'>${this.props.accumVal}</span></p>
           </div>
           );
   };
@@ -36,36 +37,37 @@ const intCalc = (props) => {
             <legend className="f4 fw6 ph0 mh0">Calculate Interest:</legend>
               <input
                 type="checkbox"
-                checked={props.compound}
-                onChange={props.clickCompound} /> <small>compound</small>
+                checked={this.props.compound}
+                onChange={this.props.clickCompound} /> <small>compound</small>
 
                 <Principal
-                  princ={props.principal}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+                  princ={this.props.principal}
+                  changed={this.props.valChanged}
+                  blurred={this.props.inputBlurred} />
 
                 <IntRate
-                  int={props.interest}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+                  int={this.props.interest}
+                  changed={this.props.valChanged}
+                  blurred={this.props.inputBlurred} />
 
                 <Years
-                  years={props.years}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+                  years={this.props.years}
+                  changed={this.props.valChanged}
+                  blurred={this.props.inputBlurred} />
 
               {err}
               {ans}
           </fieldset>
             <div>
-              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={props.click}>Calculate</a>
-              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={props.clear}>Clear</a>
+              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={this.props.click}>Calculate</a>
+              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={this.props.clear}>Clear</a>
             </div>
         </div>
       </main>
 
     </div>
-  	)
-}
+  	);
+  }
+};
 
-export default intCalc;
+export default IntCalc;

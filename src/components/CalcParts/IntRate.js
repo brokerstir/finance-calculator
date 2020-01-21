@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-const intRate = (props) => {
+class IntRate extends PureComponent {
+  render() {
+  console.log("IntRate");
   return (
     <div className="mt3">
       <label className="db fw6 lh-copy f6">Interest Rate %</label>
@@ -8,11 +10,12 @@ const intRate = (props) => {
           className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
           type="text"
           name="interest"
-          value={props.int}
-          onChange={props.changed}
-          onBlur={props.blurred} />
+          value={this.props.int}
+          onChange={this.props.changed}
+          onBlur={this.props.blurred} />
     </div>
-    )
-}
+    );
+  }
+};
 
-export default intRate;
+export default IntRate;
