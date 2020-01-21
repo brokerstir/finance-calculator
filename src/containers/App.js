@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Calc from '../Calc/Calc';
+import IntCalc from '../components/Calcs/IntCalc/IntCalc';
 import 'tachyons';
 
 class App extends Component {
@@ -142,11 +142,11 @@ class App extends Component {
   		cursor: 'pointer'
   	}
 
-    let calc = null;
+    let intCalc = null;
     if (this.state.showCalc) {
-      calc = (
+      intCalc = (
         <div>
-            <Calc
+            <IntCalc
               click={this.runCalcValidator}
               clear={this.runClearHandler}
               finishCalc={this.state.finishCalc}
@@ -173,7 +173,7 @@ class App extends Component {
           <h1>{this.props.appTitle}</h1>
           <h4>A Single Page React App</h4>
         </div>
-        {calc}
+        {intCalc}
       </div>
     );
   }
