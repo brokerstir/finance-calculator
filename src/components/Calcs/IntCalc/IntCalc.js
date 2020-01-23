@@ -1,7 +1,9 @@
 import React from 'react';
+import CheckBox from '../../CalcParts/CheckBox';
 import Principal from '../../CalcParts/Principal';
 import IntRate from '../../CalcParts/IntRate';
 import Years from '../../CalcParts/Years';
+import CalcClrBtns from '../../CalcParts/CalcClrBtns';
 import './IntCalc.css'
 
 const intCalc = (props) => {
@@ -34,33 +36,33 @@ const intCalc = (props) => {
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
             <legend className="f4 fw6 ph0 mh0">Calculate Interest:</legend>
-              <input
-                type="checkbox"
+
+              <CheckBox
                 checked={props.compound}
-                onChange={props.clickCompound} /> <small>compound</small>
+                changed={props.clickCompound} />
 
-                <Principal
-                  princ={props.principal}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+              <Principal
+                princ={props.principal}
+                changed={props.valChanged}
+                blurred={props.inputBlurred} />
 
-                <IntRate
-                  int={props.interest}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+              <IntRate
+                int={props.interest}
+                changed={props.valChanged}
+                blurred={props.inputBlurred} />
 
-                <Years
-                  years={props.years}
-                  changed={props.valChanged}
-                  blurred={props.inputBlurred} />
+              <Years
+                years={props.years}
+                changed={props.valChanged}
+                blurred={props.inputBlurred} />
 
               {err}
               {ans}
           </fieldset>
-            <div>
-              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={props.click}>Calculate</a>
-              <a className="f6 link dim ba ph3 pv2 mb2 dib black" onClick={props.clear}>Clear</a>
-            </div>
+
+            <CalcClrBtns
+              click={props.click}
+              clear={props.clear} />
         </div>
       </main>
 
