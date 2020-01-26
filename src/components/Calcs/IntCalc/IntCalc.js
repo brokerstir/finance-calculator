@@ -22,7 +22,7 @@ const intCalc = (props) => {
           <div className="ans">
           <p>The interest rate is {props.ratePercent}</p>
           <p>The interest amount is <span className='money'>${props.intAmount}</span></p>
-          <p>The accumulated value is <span className='money'>${props.accumVal}</span></p>
+          <p>The total value is <span className='money'>${props.accumVal}</span></p>
           </div>
           );
   };
@@ -38,8 +38,12 @@ const intCalc = (props) => {
             <legend className="f4 fw6 ph0 mh0">Calculate Interest:</legend>
 
               <CheckBox
-                checked={props.compound}
-                changed={props.clickCompound} />
+                title='Interest Type'
+                nameA='simple'
+                checkedA={props.simple}
+                nameB='compound'
+                checkedB={props.compound}
+                changed={props.clickBox} />
 
               <Principal
                 princ={props.principal}

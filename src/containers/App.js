@@ -17,6 +17,7 @@ class App extends Component {
     finishCalc: false,
     hasErr: false,
     compound: false,
+    simple: true,
     errMsg: ''
   };
 
@@ -61,9 +62,26 @@ class App extends Component {
     return parts.join(".");
   };
 
-  toggleCompoundHandler = () => {
-    const isCompound = this.state.compound;
-    this.setState({compound: !isCompound});
+  toggleBoxHandler = (event) => {
+    console.log('event:', event.target.name);
+    const name = event.target.name;
+    switch (name) {
+      case 'compound':
+        this.setIntTypeBoxes();
+        break;
+      case 'simple':
+        this.setIntTypeBoxes();
+        break;
+      default:
+        break;
+    }
+  };
+
+  setIntTypeBoxes = () => {
+    this.setState({
+      compound: !this.state.compound,
+      simple: !this.state.simple
+    });
   };
 
   runClearHandler = () => {
@@ -78,6 +96,7 @@ class App extends Component {
       finishCalc: false,
       hasErr: false,
       compound: false,
+      simple: true,
       errMsg: ''
     });
   };
@@ -153,6 +172,7 @@ class App extends Component {
               hasErr={this.state.hasErr}
               errMsg={this.state.errMsg}
               compound={this.state.compound}
+              simple={this.state.simple}
               principal={this.state.principal}
               interest={this.state.interest}
               years={this.state.years}
@@ -160,7 +180,7 @@ class App extends Component {
               rateDecimal={this.state.rateDecimal}
               intAmount={this.state.intAmount}
               accumVal={this.state.accumVal}
-              clickCompound={(event) => this.toggleCompoundHandler(event)}
+              clickBox={(event) => this.toggleBoxHandler(event)}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
