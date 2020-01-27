@@ -6,23 +6,21 @@ import Years from '../../CalcParts/Years';
 import CalcClrBtns from '../../CalcParts/CalcClrBtns';
 import '../CalcStyles.css'
 
-const intCalc = (props) => {
+const annCalc = (props) => {
   console.log("props", props);
   let ans = null;
   let err = null;
   if (props.hasErr) {
     err = (
           <div>
-          <p className="error">{props.errMsg}</p>
+
           </div>
           );
   }
   if (props.finishCalc) {
     ans = (
           <div className="ans">
-          <p>The interest rate is {props.ratePercent}</p>
-          <p>The interest amount is <span className='money'>${props.intAmount}</span></p>
-          <p>The total value is <span className='money'>${props.accumVal}</span></p>
+
           </div>
           );
   };
@@ -35,20 +33,7 @@ const intCalc = (props) => {
       <main className="pa4 black-80">
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Interest Calculator</legend>
-
-              <CheckBox
-                title='Interest Type'
-                nameA='simple'
-                checkedA={props.simple}
-                nameB='compound'
-                checkedB={props.compound}
-                changed={props.clickBox} />
-
-              <Principal
-                princ={props.principal}
-                changed={props.valChanged}
-                blurred={props.inputBlurred} />
+            <legend className="f4 fw6 ph0 mh0">Annuity Calculator</legend>
 
               <IntRate
                 int={props.interest}
@@ -72,7 +57,7 @@ const intCalc = (props) => {
       </main>
 
     </div>
-  	)
+    )
 }
 
-export default intCalc;
+export default annCalc;

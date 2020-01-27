@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
+import CalcMenu from '../components/CalcParts/CalcMenu';
 import IntCalc from '../components/Calcs/IntCalc/IntCalc';
+import AnnCalc from '../components/Calcs/AnnCalc/AnnCalc';
 import 'tachyons';
 
 class App extends Component {
 
   state = {
-    showCalc: true,
+    showCalc: false,
+    calcType: '',
     principal: '',
     interest: '',
     years: 1,
@@ -62,6 +65,27 @@ class App extends Component {
     return parts.join(".");
   };
 
+  toggleMenuHandler = (event) => {
+    const name = event.target.name;
+    switch (name) {
+      case 'intCalc':
+        this.setCalc(name);
+        break;
+      case 'annCalc':
+        this.setCalc(name);
+        break;
+      default:
+        break;
+    }
+  };
+
+  setCalc = (name) => {
+    this.setState({
+      showCalc: !this.state.showCalc,
+      calcType: name
+    });
+  };
+
   toggleBoxHandler = (event) => {
     console.log('event:', event.target.name);
     const name = event.target.name;
@@ -87,6 +111,25 @@ class App extends Component {
   runClearHandler = () => {
     this.setState({
       principal:'',
+      interest: '',
+      years: 1,
+      ratePercent: '',
+      rateDecimal: '',
+      intAmount: '',
+      accumVal: '',
+      finishCalc: false,
+      hasErr: false,
+      compound: false,
+      simple: true,
+      errMsg: ''
+    });
+  };
+
+  runMenuHandler = () => {
+    this.setState({
+      showCalc: false,
+      calcType: '',
+      principal: '',
       interest: '',
       years: 1,
       ratePercent: '',
@@ -161,13 +204,24 @@ class App extends Component {
   		cursor: 'pointer'
   	}
 
+    let calcMenu = null;
     let intCalc = null;
-    if (this.state.showCalc) {
+    let annCalc = null;
+    if (!this.state.showCalc) {
+      calcMenu = (
+        <div>
+            <CalcMenu
+                changed={(event) => this.toggleMenuHandler(event)} />
+        </div>
+        )
+
+    } else if (this.state.calcType == 'intCalc') {
       intCalc = (
         <div>
             <IntCalc
               click={this.runCalcValidator}
               clear={this.runClearHandler}
+              menu={this.runMenuHandler}
               finishCalc={this.state.finishCalc}
               hasErr={this.state.hasErr}
               errMsg={this.state.errMsg}
@@ -185,6 +239,23 @@ class App extends Component {
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
         )
+    } else if (this.state.calcType == 'annCalc') {
+      annCalc = (
+        <div>
+            <AnnCalc
+              click={this.runCalcValidator}
+              clear={this.runClearHandler}
+              menu={this.runMenuHandler}
+              finishCalc={this.state.finishCalc}
+              hasErr={this.state.hasErr}
+              errMsg={this.state.errMsg}
+              interest={this.state.interest}
+              years={this.state.years}
+              clickBox={(event) => this.toggleBoxHandler(event)}
+              valChanged={(event) => this.valChangedHandler(event)}
+              inputBlurred={(event) => this.inputBlurHandler(event)} />
+        </div>
+        )
     }
 
     return (
@@ -193,7 +264,9 @@ class App extends Component {
           <h1>{this.props.appTitle}</h1>
           <h4>A Single Page React App</h4>
         </div>
+        {calcMenu}
         {intCalc}
+        {annCalc}
       </div>
     );
   }
