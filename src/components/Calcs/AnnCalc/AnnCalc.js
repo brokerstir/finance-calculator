@@ -1,13 +1,14 @@
 import React from 'react';
-import CheckBox from '../../CalcParts/CheckBox';
-import Principal from '../../CalcParts/Principal';
+import Interval from '../../CalcParts/Interval';
+// import CheckBox from '../../CalcParts/CheckBox';
+// import Principal from '../../CalcParts/Principal';
 import IntRate from '../../CalcParts/IntRate';
 import Years from '../../CalcParts/Years';
 import CalcClrBtns from '../../CalcParts/CalcClrBtns';
 import '../CalcStyles.css'
 
 const annCalc = (props) => {
-  console.log("props", props);
+  console.log('props', props);
   let ans = null;
   let err = null;
   if (props.hasErr) {
@@ -34,6 +35,10 @@ const annCalc = (props) => {
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
             <legend className="f4 fw6 ph0 mh0">Annuity Calculator</legend>
+
+              <Interval
+                value={props.interval}
+                changed={props.valChanged} />
 
               <IntRate
                 int={props.interest}

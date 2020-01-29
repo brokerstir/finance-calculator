@@ -12,6 +12,7 @@ class App extends Component {
     calcType: '',
     principal: '',
     interest: '',
+    interval: 'Monthly',
     years: 1,
     ratePercent: '',
     rateDecimal: '',
@@ -31,7 +32,7 @@ class App extends Component {
   };
 
   setValHandler = (name, val, invalid) => {
-    let w = name == 'years' ? 1 : '';
+    let w = name === 'years' ? 1 : '';
     let v = invalid ? w : val;
     let err = invalid ? 'Error: Invalid Input' : '';
     switch (name) {
@@ -43,6 +44,9 @@ class App extends Component {
         break;
       case 'years':
         this.setState({years: v, hasErr: invalid, errMsg: err});
+        break;
+      case 'interval':
+        this.setState({interval: v, hasErr: invalid, errMsg: err});
         break;
       default:
         break;
@@ -67,6 +71,7 @@ class App extends Component {
 
   toggleMenuHandler = (event) => {
     const name = event.target.name;
+    if (name === 'interval') console.log('value:', event.target.value);
     switch (name) {
       case 'intCalc':
         this.setCalc(name);
@@ -112,6 +117,7 @@ class App extends Component {
     this.setState({
       principal:'',
       interest: '',
+      interval: '',
       years: 1,
       ratePercent: '',
       rateDecimal: '',
@@ -169,7 +175,6 @@ class App extends Component {
   };
 
   runCalcHandler = (p, i, t) => {
-    const allZero = ((i === 0) && (p === 0));
     const rd = (i / 100);
     const rp = (i).toFixed(2) + '%';
     let s = null;
@@ -196,14 +201,6 @@ class App extends Component {
 
   render() {
 
-  	const style = {
-  		backgroundColor: 'white',
-  		font: 'inherit',
-  		border: '1px solid blue',
-  		padding: '8px',
-  		cursor: 'pointer'
-  	}
-
     let calcMenu = null;
     let intCalc = null;
     let annCalc = null;
@@ -215,7 +212,7 @@ class App extends Component {
         </div>
         )
 
-    } else if (this.state.calcType == 'intCalc') {
+    } else if (this.state.calcType === 'intCalc') {
       intCalc = (
         <div>
             <IntCalc
@@ -239,7 +236,7 @@ class App extends Component {
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
         )
-    } else if (this.state.calcType == 'annCalc') {
+    } else if (this.state.calcType === 'annCalc') {
       annCalc = (
         <div>
             <AnnCalc
@@ -251,6 +248,7 @@ class App extends Component {
               errMsg={this.state.errMsg}
               interest={this.state.interest}
               years={this.state.years}
+              interval={this.state.interval}
               clickBox={(event) => this.toggleBoxHandler(event)}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
