@@ -20,9 +20,9 @@ const intCalc = (props) => {
   if (props.finishCalc) {
     ans = (
           <div className="ans">
-          <p>The interest rate is {props.ratePercent}</p>
+          <p>The interest rate is <span className='money'>{props.ratePercent}</span></p>
           <p>The interest amount is <span className='money'>${props.intAmount}</span></p>
-          <p>The total value is <span className='money'>${props.accumVal}</span></p>
+          <p>The total value is <span className='money'>${props.futVal}</span></p>
           </div>
           );
   };
@@ -35,7 +35,7 @@ const intCalc = (props) => {
       <main className="pa4 black-80">
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Interest Calculator</legend>
+            <legend className="f4 fw6 ph0 mh0">Lump Sum Investment</legend>
 
               <CheckBox
                 title='Interest Type'
@@ -46,6 +46,7 @@ const intCalc = (props) => {
                 changed={props.clickBox} />
 
               <Principal
+                title='Principal'
                 princ={props.principal}
                 changed={props.valChanged}
                 blurred={props.inputBlurred} />
@@ -65,6 +66,7 @@ const intCalc = (props) => {
           </fieldset>
 
             <CalcClrBtns
+              name='intCalc'
               click={props.click}
               clear={props.clear}
               menu={props.menu} />

@@ -17,7 +17,8 @@ class App extends Component {
     ratePercent: '',
     rateDecimal: '',
     intAmount: '',
-    accumVal: '',
+    futVal: '',
+    presVal: '',
     finishCalc: false,
     hasErr: false,
     compound: false,
@@ -62,8 +63,6 @@ class App extends Component {
   };
 
   numberWithCommas = (x) => {
-    // x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // 9999.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
@@ -71,7 +70,6 @@ class App extends Component {
 
   toggleMenuHandler = (event) => {
     const name = event.target.name;
-    if (name === 'interval') console.log('value:', event.target.value);
     switch (name) {
       case 'intCalc':
         this.setCalc(name);
@@ -92,7 +90,6 @@ class App extends Component {
   };
 
   toggleBoxHandler = (event) => {
-    console.log('event:', event.target.name);
     const name = event.target.name;
     switch (name) {
       case 'compound':
@@ -122,7 +119,8 @@ class App extends Component {
       ratePercent: '',
       rateDecimal: '',
       intAmount: '',
-      accumVal: '',
+      futVal: '',
+      presVal: '',
       finishCalc: false,
       hasErr: false,
       compound: false,
@@ -141,7 +139,8 @@ class App extends Component {
       ratePercent: '',
       rateDecimal: '',
       intAmount: '',
-      accumVal: '',
+      futVal: '',
+      presVal: '',
       finishCalc: false,
       hasErr: false,
       compound: false,
@@ -150,7 +149,8 @@ class App extends Component {
     });
   };
 
-  runCalcValidator = () => {
+  runCalcValidator = (event) => {
+    const name = event.target.name;
     const p = parseFloat(this.state.principal);
     const i = parseFloat(this.state.interest);
     const t = parseFloat(this.state.years);
@@ -158,23 +158,31 @@ class App extends Component {
     const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
     if (invalid || notNum) {
       this.setState({
-        // principal: '',
         years: 1,
-        // interest: '',
         ratePercent: '',
         rateDecimal: '',
         intAmount: '',
-        accumVal: '',
+        futVal: '',
+        presVal: '',
         finishCalc: false,
         hasErr: true,
         errMsg: 'Error: Blank Input'
       });
       return
     }
-    this.runCalcHandler(p, i, t);
+    switch (name) {
+      case 'intCalc':
+        this.runIntCalcHandler(p, i, t);
+        break;
+      case 'annCalc':
+        this.runAnnCalcHandler(p, i, t);
+        break;
+      default:
+        break;
+    }
   };
 
-  runCalcHandler = (p, i, t) => {
+  runIntCalcHandler = (p, i, t) => {
     const rd = (i / 100);
     const rp = (i).toFixed(2) + '%';
     let s = null;
@@ -192,12 +200,64 @@ class App extends Component {
       rateDecimal: rd.toFixed(4),
       ratePercent: rp,
       intAmount: s,
-      accumVal: av,
+      futVal: av,
       finishCalc: true,
       hasErr: false,
       errMsg: ''
     });
-  }
+  };
+
+  runAnnCalcHandler = (p, i, t) => {
+    const rd = (i / 100);
+    const rdpp = this.runIntPerPeriod(rd);
+    const n = this.runNumPeriods(t);
+    const rp = (i).toFixed(2) + '%';
+    let fv = p * ( ( (1 + rdpp) ** n - 1 ) / rdpp );
+    let pv = p * ( ( 1 - (1 + rdpp) ** -n ) / rdpp );
+    fv = this.numberWithCommas(fv.toFixed(2));
+    pv = this.numberWithCommas(pv.toFixed(2));
+    this.setState({
+      rateDecimal: rd.toFixed(4),
+      ratePercent: rp,
+      futVal: fv,
+      presVal: pv,
+      finishCalc: true,
+      hasErr: false,
+      errMsg: ''
+    });
+  };
+
+  runIntPerPeriod = (rd) => {
+    const interval = this.state.interval
+    switch (interval) {
+      case 'Monthly':
+        return rd/12;
+      case 'Quarterly':
+        return rd/4;
+      case 'Semi-Annually':
+        return rd/2;
+      case 'Annually':
+        return rd;
+      default:
+        break;
+    }
+  };
+
+  runNumPeriods = (t) => {
+    const interval = this.state.interval
+    switch (interval) {
+      case 'Monthly':
+        return t*12;
+      case 'Quarterly':
+        return t*4;
+      case 'Semi-Annually':
+        return t*2;
+      case 'Annually':
+        return t;
+      default:
+        break;
+    }
+  };
 
   render() {
 
@@ -216,7 +276,7 @@ class App extends Component {
       intCalc = (
         <div>
             <IntCalc
-              click={this.runCalcValidator}
+              click={(event) => this.runCalcValidator(event)}
               clear={this.runClearHandler}
               menu={this.runMenuHandler}
               finishCalc={this.state.finishCalc}
@@ -230,7 +290,7 @@ class App extends Component {
               ratePercent={this.state.ratePercent}
               rateDecimal={this.state.rateDecimal}
               intAmount={this.state.intAmount}
-              accumVal={this.state.accumVal}
+              futVal={this.state.futVal}
               clickBox={(event) => this.toggleBoxHandler(event)}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
@@ -248,8 +308,11 @@ class App extends Component {
               errMsg={this.state.errMsg}
               interest={this.state.interest}
               years={this.state.years}
+              ratePercent={this.state.ratePercent}
+              principal={this.state.principal}
               interval={this.state.interval}
-              clickBox={(event) => this.toggleBoxHandler(event)}
+              futVal={this.state.futVal}
+              presVal={this.state.presVal}
               valChanged={(event) => this.valChangedHandler(event)}
               inputBlurred={(event) => this.inputBlurHandler(event)} />
         </div>
