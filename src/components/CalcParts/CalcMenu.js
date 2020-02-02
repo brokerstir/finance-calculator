@@ -18,7 +18,7 @@ const checkBox = (props) => {
               checked={false}
               onChange={props.changed} />
               <label
-                className="lh-copy"><small>simple / compound interest</small>  </label>
+                className="lh-copy"><small>lump sum investment</small>  </label>
           </div>
 
           <div className="flex items-center mb2">
@@ -29,7 +29,7 @@ const checkBox = (props) => {
               checked={false}
               onChange={props.changed} />
               <label
-                className="lh-copy"><small>ordinary certain annuity</small>  </label>
+                className="lh-copy"><small>periodic payment investment</small>  </label>
           </div>
 
 
