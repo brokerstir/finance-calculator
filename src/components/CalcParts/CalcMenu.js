@@ -29,7 +29,7 @@ const checkBox = (props) => {
               checked={false}
               onChange={props.changed} />
               <label
-                className="lh-copy"><small>periodic payment investment</small>  </label>
+                className="lh-copy"><small>periodic investment</small>  </label>
           </div>
 
 

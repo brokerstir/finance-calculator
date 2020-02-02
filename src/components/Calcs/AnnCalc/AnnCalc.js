@@ -21,7 +21,6 @@ const annCalc = (props) => {
     ans = (
           <div className="ans">
             <p>The annual interest rate is <span className='money'>{props.ratePercent}</span></p>
-            <p>The present value is <span className='money'>${props.presVal}</span></p>
             <p>The future value is <span className='money'>${props.futVal}</span></p>
           </div>
           );
@@ -35,14 +34,15 @@ const annCalc = (props) => {
       <main className="pa4 black-80">
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Annuity Calculator</legend>
+            <legend className="f4 fw6 ph0 mh0">Periodic Investment</legend>
 
               <Interval
+                title='Investment Interval'
                 value={props.interval}
                 changed={props.valChanged} />
 
               <Principal
-                title='Payment Amount'
+                title='Investment Amount'
                 princ={props.principal}
                 changed={props.valChanged}
                 blurred={props.inputBlurred} />

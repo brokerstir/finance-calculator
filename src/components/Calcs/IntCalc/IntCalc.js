@@ -35,7 +35,7 @@ const intCalc = (props) => {
       <main className="pa4 black-80">
         <div>
           <fieldset className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Interest Calculator</legend>
+            <legend className="f4 fw6 ph0 mh0">Lump Sum Investment</legend>
 
               <CheckBox
                 title='Interest Type'
