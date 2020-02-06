@@ -32,6 +32,17 @@ const checkBox = (props) => {
                 className="lh-copy"><small>periodic investment</small>  </label>
           </div>
 
+          <div className="flex items-center mb2">
+            <input
+              type="checkbox"
+              name="perPymntCalc"
+              className="mr2"
+              checked={false}
+              onChange={props.changed} />
+              <label
+                className="lh-copy"><small>certain annuity payments</small>  </label>
+          </div>
+
 
 
           </fieldset>

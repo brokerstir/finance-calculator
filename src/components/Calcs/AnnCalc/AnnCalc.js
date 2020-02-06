@@ -48,6 +48,7 @@ const annCalc = (props) => {
                 blurred={props.inputBlurred} />
 
               <IntRate
+                title='Annual Interest Rate'
                 int={props.interest}
                 changed={props.valChanged}
                 blurred={props.inputBlurred} />

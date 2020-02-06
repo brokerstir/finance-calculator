@@ -3,6 +3,7 @@ import './App.css';
 import CalcMenu from '../components/CalcParts/CalcMenu';
 import IntCalc from '../components/Calcs/IntCalc/IntCalc';
 import AnnCalc from '../components/Calcs/AnnCalc/AnnCalc';
+import PerPymntCalc from '../components/Calcs/PerPymntCalc/PerPymntCalc';
 import 'tachyons';
 
 class App extends Component {
@@ -75,6 +76,9 @@ class App extends Component {
         this.setCalc(name);
         break;
       case 'annCalc':
+        this.setCalc(name);
+        break;
+      case 'perPymntCalc':
         this.setCalc(name);
         break;
       default:
@@ -155,8 +159,8 @@ class App extends Component {
     const i = parseFloat(this.state.interest);
     const t = parseFloat(this.state.years);
     const invalid = (p === '' || i === '' || t === '');
-    const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
-    if (invalid || notNum) {
+    // const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
+    if (invalid) {
       this.setState({
         years: 1,
         ratePercent: '',
@@ -176,6 +180,9 @@ class App extends Component {
         break;
       case 'annCalc':
         this.runAnnCalcHandler(p, i, t);
+        break;
+      case 'perPymntCalc':
+        this.runPerPymntCalcHandler(p, i, t);
         break;
       default:
         break;
@@ -221,6 +228,24 @@ class App extends Component {
       ratePercent: rp,
       futVal: fv,
       presVal: pv,
+      finishCalc: true,
+      hasErr: false,
+      errMsg: ''
+    });
+  };
+
+  runPerPymntCalcHandler = (p, i, t) => {
+    const rd = (i / 100);
+    const rdpp = this.runIntPerPeriod(rd);
+    const n = this.runNumPeriods(t);
+    const rp = (i).toFixed(2) + '%';
+    let pp = p * ( rdpp / ( 1 - (1 + rdpp) ** -n ))
+    console.log('total:', n*pp)
+    pp = this.numberWithCommas(pp.toFixed(2));
+    this.setState({
+      rateDecimal: rd.toFixed(4),
+      ratePercent: rp,
+      futVal: pp,
       finishCalc: true,
       hasErr: false,
       errMsg: ''
@@ -300,6 +325,27 @@ class App extends Component {
       annCalc = (
         <div>
             <AnnCalc
+              click={this.runCalcValidator}
+              clear={this.runClearHandler}
+              menu={this.runMenuHandler}
+              finishCalc={this.state.finishCalc}
+              hasErr={this.state.hasErr}
+              errMsg={this.state.errMsg}
+              interest={this.state.interest}
+              years={this.state.years}
+              ratePercent={this.state.ratePercent}
+              principal={this.state.principal}
+              interval={this.state.interval}
+              futVal={this.state.futVal}
+              presVal={this.state.presVal}
+              valChanged={(event) => this.valChangedHandler(event)}
+              inputBlurred={(event) => this.inputBlurHandler(event)} />
+        </div>
+        )
+    } else if (this.state.calcType === 'perPymntCalc') {
+      annCalc = (
+        <div>
+            <PerPymntCalc
               click={this.runCalcValidator}
               clear={this.runClearHandler}
               menu={this.runMenuHandler}
