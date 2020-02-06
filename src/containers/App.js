@@ -160,7 +160,6 @@ class App extends Component {
     const t = parseFloat(this.state.years);
     const invalid = (p === '' || i === '' || t === '');
     // const notNum = ( isNaN(p) || isNaN(i) || isNaN(t) );
-    // if (invalid || notNum) {
     if (invalid) {
       this.setState({
         years: 1,
@@ -175,7 +174,6 @@ class App extends Component {
       });
       return
     }
-    // console.log('name:', name);
     switch (name) {
       case 'intCalc':
         this.runIntCalcHandler(p, i, t);
@@ -223,12 +221,8 @@ class App extends Component {
     const rp = (i).toFixed(2) + '%';
     let fv = p * ( ( (1 + rdpp) ** n - 1 ) / rdpp );
     let pv = p * ( ( 1 - (1 + rdpp) ** -n ) / rdpp );
-    // console.log('fv:', fv);
-    // console.log('pv:', pv);
     fv = this.numberWithCommas(fv.toFixed(2));
     pv = this.numberWithCommas(pv.toFixed(2));
-    // console.log('fv:', fv);
-    // console.log('pv:', pv);
     this.setState({
       rateDecimal: rd.toFixed(4),
       ratePercent: rp,
@@ -245,8 +239,6 @@ class App extends Component {
     const rdpp = this.runIntPerPeriod(rd);
     const n = this.runNumPeriods(t);
     const rp = (i).toFixed(2) + '%';
-    // let fv = p * ( ( (1 + rdpp) ** n - 1 ) / rdpp );
-    // let pv = p * ( ( 1 - (1 + rdpp) ** -n ) / rdpp );
     let pp = p * ( rdpp / ( 1 - (1 + rdpp) ** -n ))
     console.log('total:', n*pp)
     pp = this.numberWithCommas(pp.toFixed(2));
